@@ -6,6 +6,7 @@
 :root[data-theme="dark"] .viz-root{color-scheme:dark;--surface-1:#1a1a19;--surface-2:#242422;--text-primary:#f0efec;--text-secondary:#c3c2b7;--text-muted:#8f8e88;--rule:#33332f;--edge:#c3c2b7}
 body{margin:0}
 .viz-root{background:var(--surface-1);color:var(--text-primary);font:15px/1.5 Calibri,Carlito,"Segoe UI",Helvetica,Arial,sans-serif;min-height:100vh}
+.tnr,.tnr *{font-family:"Times New Roman",Times,serif}
 .math,.note,.gl dd,#keytable td.st{font-family:"Times New Roman",Times,serif;font-size:16px;line-height:1.5}
 .wrap{max-width:1600px;margin:0 auto;padding:28px 24px 60px}
 h1{font-size:30px;margin:0 0 4px;font-weight:700}
@@ -49,14 +50,14 @@ th{color:var(--text-secondary);font-weight:600;font-size:14px}
 .chip{display:inline-block;border:1px solid var(--rule);border-radius:12px;padding:1px 9px;margin:2px 4px 2px 0;cursor:pointer;background:var(--surface-1);font-size:13px}
 </style></head>
 <body><div class="viz-root"><div class="wrap">
-<h1>The Riemann Hypothesis in <span style="font-family:'SF Mono',Menlo,monospace;font-size:26px">lean.tar.gz</span>: structure of the proof</h1>
-<div class="stats" id="stats"></div>
+<h1 class="tnr">The Riemann Hypothesis in lean.tar.gz: structure of the proof</h1>
+<div class="stats tnr" id="stats"></div>
 
-<h2>Top of the proof tree (depths 0–<span id="maxd"></span>)</h2>
-<div class="controls"><input type="search" id="q" placeholder="Find a declaration (VWin, Row0b, recT, …)"><button id="reset">Clear selection</button><span>● theorem &nbsp; ■ definition &nbsp;·&nbsp; each edge joins successively layered results &nbsp;·&nbsp; depth 6 labeled only for important results</span></div>
+<h2>Top level results</h2>
+<div class="controls"><input type="search" id="q" placeholder="Find a declaration (VWin, Row0b, recT, …)"><button id="reset">Clear selection</button><span>● theorem &nbsp; ■ definition. Each edge joins successively layered results, and depth 6 is labeled solely for important results.</span></div>
 <div class="legend" id="legend"></div>
 <svg id="tree" role="img" aria-label="Layered proof tree"></svg>
-<div id="detail">Select a node.</div>
+<div id="detail">Select a node above.</div>
 
 <h2>Principal results</h2>
 <table id="keytable"><thead><tr><th style="width:22%">Result</th><th style="width:14%">Role</th><th>Statement</th></tr></thead><tbody></tbody></table>
@@ -66,12 +67,12 @@ th{color:var(--text-secondary);font-weight:600;font-size:14px}
 <div class="legend" id="legend2"></div>
 <svg id="bars" role="img" aria-label="Declarations per depth, stacked by library"></svg>
 
-<h2>The whole proof as a graph of module groups</h2>
-<p class="sub" id="gsub"></p>
+<h2 class="tnr">The whole proof as a graph of module groups</h2>
+<p class="sub tnr" id="gsub"></p>
 <div class="controls"><input type="search" id="gq" placeholder="Find a module group (e.g. LocalLanglands, Heights)"><button id="greset">Clear</button></div>
 <div class="legend" id="legend3"></div>
 <svg id="graph" role="img" aria-label="Module-group dependency graph"></svg>
-<div id="gpanel">Click a group to list its most-used declarations. Selecting a node in the tree above outlines its group here.</div>
+<div id="gpanel">Select a node in the tree to outline the group here.</div>
 </div><div id="tip"></div></div>
 <script>
 const D=__DATA__;
@@ -82,7 +83,7 @@ const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[
 const PAL=['#2a78d6','#eb6834','#1baf7a','#eda100','#e87ba4','#008300','#6250d6','#b9b8b2'];
 const st=D.stats;
 document.getElementById('stats').innerHTML=[[st.files,'Lean files'],[st.lines,'lines of Lean'],[st.decls,'declarations'],[st.reached,'reached from riemannHypothesis'],[st.thm,'theorems'],[st.defs,'definitions'],[st.groups,'module groups reached'],[st.maxd,'maximum depth']].map(([v,l])=>`<div class="stat"><b>${fmt(v)}</b><span>${l}</span></div>`).join('');
-document.getElementById('maxd').textContent=D.MAXD;document.querySelectorAll('.md2').forEach(e=>e.textContent=D.MAXD);
+document.querySelectorAll('.md2').forEach(e=>e.textContent=D.MAXD);
 document.getElementById('legend').innerHTML=D.lanes.map(l=>`<span><i style="background:${l.color}"></i>${l.name}</span>`).join('');
 
 const svg=document.getElementById('tree');svg.setAttribute('viewBox',`0 0 ${D.W} ${D.H}`);svg.setAttribute('width','100%');
@@ -117,7 +118,7 @@ function select(id){const down=closure(id,out),up=closure(id,inn),on=new Set([..
   const n=byId[id];
   document.getElementById('detail').innerHTML=`<div class="nm2" style="font-size:17px">${esc(n.name)}</div><div class="meta2">${n.kind} · depth ${n.d} · ${esc(n.mod)} · ${n.lines} lines · ${down.size-1} results below it on this chart, ${up.size-1} above · group <a href="#graph" onclick="focusGroup('${n.grp}')">${esc(n.grp)}</a></div>${n.note?`<p class="note" style="margin:8px 0 2px">${n.note}</p>`:''}${glossHTML(n.terms)}<details ${n.note?'':'open'}><summary style="cursor:pointer;color:var(--text-secondary)">Lean statement</summary><div class="lean">${esc(n.stmt)}</div></details>`;
   ringGroup(n.grp)}
-document.getElementById('reset').onclick=()=>{for(const k in nodeEls)nodeEls[k].classList.remove('dim');edgeEls.forEach(([a,b,e])=>e.classList.remove('hot','dim'));document.getElementById('detail').textContent='Select a node.';ringGroup(null)};
+document.getElementById('reset').onclick=()=>{for(const k in nodeEls)nodeEls[k].classList.remove('dim');edgeEls.forEach(([a,b,e])=>e.classList.remove('hot','dim'));document.getElementById('detail').textContent='Select a node above.';ringGroup(null)};
 document.getElementById('q').addEventListener('input',e=>{const v=e.target.value.trim().toLowerCase();if(!v){document.getElementById('reset').click();return}
   const hit=D.nodes.filter(n=>n.name.toLowerCase().includes(v));for(const k in nodeEls)nodeEls[k].classList.toggle('dim',!hit.some(h=>h.id===k));if(hit.length===1)select(hit[0].id)});
 
@@ -169,7 +170,7 @@ function showGroup(k){const g=D.groups[k],on=new Set([k,...nb[k]]);
   (inTree.length?`<div style="margin:8px 0 2px">Results from the tree above in this group: ${inTree.map(n=>`<span class="chip" onclick="select('${n.id}');document.getElementById('tree').scrollIntoView({behavior:'smooth'})">${esc(n.short)}</span>`).join('')}</div>`:'')+
   `<div style="margin-top:8px;color:var(--text-secondary)">Most-used declarations in this group:</div><ol>${g.top.map(([nm,kd,d,s])=>`<li><b>${esc(nm.split('.').slice(-2).join('.'))}</b> <span class="meta2">${kd}, depth ${d}</span><div class="lean">${esc(s)}</div></li>`).join('')}</ol>`}
 window.focusGroup=name=>{if(name in gIndex)showGroup(gIndex[name])};window.select=select;
-document.getElementById('greset').onclick=()=>{gEls.forEach(c=>c.classList.remove('dim'));gedgeEls.forEach(([a,b,e])=>e.setAttribute('stroke-opacity',.07));gr.innerHTML='';document.getElementById('gpanel').textContent='Click a group to list its most-used declarations. Selecting a node in the tree above outlines its group here.'};
+document.getElementById('greset').onclick=()=>{gEls.forEach(c=>c.classList.remove('dim'));gedgeEls.forEach(([a,b,e])=>e.setAttribute('stroke-opacity',.07));gr.innerHTML='';document.getElementById('gpanel').textContent='Select a node in the tree to outline the group here.'};
 document.getElementById('gq').addEventListener('input',e=>{const v=e.target.value.trim().toLowerCase();if(!v){document.getElementById('greset').click();return}
   const hits=new Set(D.groups.map((g,i)=>g.g.toLowerCase().includes(v)?i:-1).filter(i=>i>=0));gEls.forEach((c,i)=>c.classList.toggle('dim',!hits.has(i)));if(hits.size===1)showGroup([...hits][0])});
 </script></body></html>
