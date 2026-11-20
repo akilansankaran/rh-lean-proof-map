@@ -2,9 +2,12 @@ import json
 import sys
 
 X = json.load(open(sys.argv[1]))
+sys.path.insert(0, __import__('os').path.dirname(__import__('os').path.abspath(__file__)))
+from pillar_math import MATH
+X['math'] = MATH
 files = sys.argv[2:]
 
-SECTION = r'''<h2 class="tnr" id="excl">Where the new mathematics lies</h2>
+SECTION = r'''<h2 class="tnr" id="excl">Pillars of argumentation</h2>
 <div id="excltext" class="tnr" style="font-size:16px;line-height:1.6;max-width:1100px">
 <p>We call a <i>pillar</i> one of the six results in the upper layers of the tree on which the remainder of the proof primarily relies. These include the analytic reduction (rh_of_every, critLine), the Galois representations of Row0b, the theta lifts of TLiftK, the local Langlands correspondence (recTExists), the Selmer bound VWin, and the bridge from VWin to nonvanishing. A declaration is <i>reached</i> by $p$ if it can be arrived at from $p$ by following references, that is, if it appears in the statement or proof of $p$, or in the statement or proof of a declaration that does so, and so on down to the foundations. For a pillar $p$ let $D(p)$ be the set of declarations reached by $p$, and let
 $$E(p) \;=\; D(p) \setminus \bigcup_{q \neq p} D(q)$$
@@ -57,7 +60,7 @@ P.forEach((a,i)=>{h+=`<tr data-i="${i}" style="cursor:pointer"><th style="text-a
 const MX=document.getElementById('exclmatrix');MX.innerHTML=h+'</table>';MX.querySelectorAll('tr[data-i]').forEach(r=>r.addEventListener('click',()=>show(+r.dataset.i)));
 function show(i){const p=P[i],e=p.excl,PN=document.getElementById('exclpanel');
   PN.innerHTML=`<div class="nm2" style="font-size:17px">${es(p.name)}</div><div class="meta2">${es(p.roots.join(', '))} · support ${f(p.support)} · exclusive ${f(e.n)} (${f(e.thm)} theorems, ${f(e.defs)} definitions, ${f(e.lines)} lines)</div><p class="note" style="margin:8px 0">${es(p.desc)}</p>`+
-  (e.n?`<div style="color:var(--text-secondary)">Largest modules in the exclusive support:</div><ol>${e.mods.map(([m,c])=>`<li>${es(m)} <span class="meta2">${f(c)}</span></li>`).join('')}</ol><div style="color:var(--text-secondary)">Most-cited declarations in the exclusive support:</div><ol>${e.top.map(([n,k,c,s])=>`<li><b>${es(n.split('.').slice(-2).join('.'))}</b> <span class="meta2">${k}, cited ${c} times within the block</span><div class="lean">${es(s)}</div></li>`).join('')}</ol>`:'<p>No declaration is exclusive to this pillar: everything it reaches is also reached by another pillar.</p>');PN.scrollIntoView({behavior:'smooth',block:'nearest'})}
+  (e.n?`<div style="color:var(--text-secondary)">Largest modules in the exclusive support:</div><ol>${e.mods.map(([m,c])=>`<li>${es(m)} <span class="meta2">${f(c)}</span></li>`).join('')}</ol><div style="color:var(--text-secondary)">Most-cited declarations in the exclusive support:</div><ol>${e.top.map(([n,k,c,s])=>`<li style="margin:6px 0"><b>${es(n.split('.').slice(-2).join('.'))}</b> <span class="meta2">${k}, cited ${c} times within the block</span>${X.math[n]?`<div class="note" style="margin:3px 0">${X.math[n]}</div>`:''}<details><summary style="cursor:pointer;color:var(--text-muted);font-size:12.5px">Lean statement</summary><div class="lean">${es(s)}</div></details></li>`).join('')}</ol>`:'<p>No declaration is exclusive to this pillar: everything it reaches is also reached by another pillar.</p>');PN.scrollIntoView({behavior:'smooth',block:'nearest'})}
 })();
 </script>
 '''
