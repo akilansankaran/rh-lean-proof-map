@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>The Riemann Hypothesis in lean.tar.gz: proof structure</title>
+<style>
+.viz-root{color-scheme:light;--surface-1:#fcfcfb;--surface-2:#f4f3ef;--text-primary:#0b0b0b;--text-secondary:#52514e;--text-muted:#8a8984;--rule:#e4e3df;--edge:#52514e}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .viz-root{color-scheme:dark;--surface-1:#1a1a19;--surface-2:#242422;--text-primary:#f0efec;--text-secondary:#c3c2b7;--text-muted:#8f8e88;--rule:#33332f;--edge:#c3c2b7}}
+:root[data-theme="dark"] .viz-root{color-scheme:dark;--surface-1:#1a1a19;--surface-2:#242422;--text-primary:#f0efec;--text-secondary:#c3c2b7;--text-muted:#8f8e88;--rule:#33332f;--edge:#c3c2b7}
+body{margin:0}
+.viz-root{background:var(--surface-1);color:var(--text-primary);font:15px/1.5 Calibri,Carlito,"Segoe UI",Helvetica,Arial,sans-serif;min-height:100vh}
+.math,.note,.gl dd,#keytable td.st{font-family:"Times New Roman",Times,serif;font-size:16px;line-height:1.5}
+.wrap{max-width:1600px;margin:0 auto;padding:28px 24px 60px}
+h1{font-size:30px;margin:0 0 4px;font-weight:700}
+h2{font-size:21px;margin:36px 0 8px}
+.sub{color:var(--text-secondary);margin:0 0 14px}
+.stats{display:flex;gap:30px;flex-wrap:wrap;margin:18px 0 8px}
+.stat b{display:block;font-size:26px;color:var(--text-primary);font-variant-numeric:tabular-nums}
+.stat span{color:var(--text-secondary);font-size:13px}
+.controls{display:flex;gap:10px;align-items:center;margin:8px 0;color:var(--text-secondary);font-size:14px;flex-wrap:wrap}
+input[type=search]{font:inherit;padding:6px 10px;border:1px solid var(--rule);border-radius:6px;background:var(--surface-1);color:var(--text-primary);min-width:280px}
+button{font:inherit;padding:5px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--surface-2);color:var(--text-primary);cursor:pointer}
+svg text{font-family:Calibri,Carlito,"Segoe UI",Helvetica,Arial,sans-serif}
+.node{cursor:pointer}.node .hit{fill:transparent}
+.dim{opacity:.1}
+.lbl{fill:var(--text-primary);font-size:12px;pointer-events:none}
+.lbl.small{font-size:10.5px;fill:var(--text-secondary)}
+.edge{stroke:var(--edge);stroke-opacity:.2;fill:none}
+.edge.hot{stroke-opacity:.95;stroke-width:1.8}
+#tip{position:fixed;pointer-events:none;background:var(--surface-1);border:1px solid var(--rule);border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,.18);padding:10px 13px;max-width:600px;font-size:13px;display:none;z-index:10}
+#tip .nm{font-weight:700;word-break:break-all;font-size:14px}
+#tip .md{color:var(--text-muted);font-size:12px;margin:2px 0 6px;word-break:break-all}
+#tip .note{margin:0 0 6px}
+#tip .tl{color:var(--text-muted);font-size:12px}
+code,.lean{font:11.5px/1.5 "SF Mono",Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word;color:var(--text-secondary)}
+#detail{background:var(--surface-2);border-radius:8px;padding:14px 16px;margin-top:10px;min-height:44px}
+#detail details{margin-top:8px}
+.gl{margin:8px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:3px 14px}
+.gl dt{font-family:"Times New Roman",Times,serif;font-style:italic;font-size:15.5px;color:var(--text-primary)}
+.gl dd{margin:0;color:var(--text-secondary);font-size:15px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13.5px;color:var(--text-secondary);margin:6px 0}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;padding:8px 9px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--text-secondary);font-weight:600;font-size:14px}
+#keytable tr{cursor:pointer}#keytable tr:hover td{background:var(--surface-2)}
+.nm2{font-weight:700}.meta2{color:var(--text-muted);font-size:12.5px}
+#gpanel{background:var(--surface-2);border-radius:8px;padding:14px 16px;margin-top:10px;min-height:44px}
+#gpanel li{margin:4px 0}
+.gnode{cursor:pointer}
+.ring{fill:none;stroke:var(--text-primary);stroke-width:2.5}
+.chip{display:inline-block;border:1px solid var(--rule);border-radius:12px;padding:1px 9px;margin:2px 4px 2px 0;cursor:pointer;background:var(--surface-1);font-size:13px}
+</style></head>
+<body><div class="viz-root"><div class="wrap">
+<h1>The Riemann Hypothesis in <span style="font-family:'SF Mono',Menlo,monospace;font-size:26px">lean.tar.gz</span>: structure of the proof</h1>
+<p class="sub">Each node is a Lean declaration. Rows give its distance below the theorem <i>riemannHypothesis</i> in Main.lean; columns group it by mathematical role. Hover for the statement, click to trace dependencies and to locate it in the full graph below.</p>
+<div class="stats" id="stats"></div>
+
+<h2>Top of the proof tree (depths 0–<span id="maxd"></span>)</h2>
+<div class="controls"><input type="search" id="q" placeholder="Find a declaration (VWin, Row0b, recT, …)"><button id="reset">Clear selection</button><span>● theorem &nbsp; ■ definition &nbsp;·&nbsp; each edge joins a result to one it uses &nbsp;·&nbsp; depth 6 is labelled only for principal results; hover any node</span></div>
+<div class="legend" id="legend"></div>
+<svg id="tree" role="img" aria-label="Layered proof tree"></svg>
+<div id="detail">Click a node to show its statement, the terms it uses, and its Lean source.</div>
+
+<h2>Principal results</h2>
+<table id="keytable"><thead><tr><th style="width:22%">Result</th><th style="width:14%">Role</th><th>Statement</th></tr></thead><tbody></tbody></table>
+
+<h2>Below depth <span class="md2"></span></h2>
+<p class="sub" id="tailsub"></p>
+<div class="legend" id="legend2"></div>
+<svg id="bars" role="img" aria-label="Declarations per depth, stacked by library"></svg>
+
+<h2>The whole proof as a graph of module groups</h2>
+<p class="sub" id="gsub"></p>
+<div class="controls"><input type="search" id="gq" placeholder="Find a module group (e.g. LocalLanglands, Heights)"><button id="greset">Clear</button></div>
+<div class="legend" id="legend3"></div>
+<svg id="graph" role="img" aria-label="Module-group dependency graph"></svg>
+<div id="gpanel">Click a group to list its most-used declarations. Selecting a node in the tree above outlines its group here.</div>
+</div><div id="tip"></div></div>
+<script>
+const D=__DATA__;
+const NS='http://www.w3.org/2000/svg';
+const el=(t,a={},p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e};
+const fmt=n=>n.toLocaleString('en-US');
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const PAL=['#2a78d6','#eb6834','#1baf7a','#eda100','#e87ba4','#008300','#6250d6','#b9b8b2'];
+const st=D.stats;
+document.getElementById('stats').innerHTML=[[st.files,'Lean files'],[st.lines,'lines of Lean'],[st.decls,'declarations'],[st.reached,'reached from riemannHypothesis'],[st.thm,'of them theorems'],[st.defs,'of them definitions'],[st.groups,'module groups reached'],[st.maxd,'maximum depth']].map(([v,l])=>`<div class="stat"><b>${fmt(v)}</b><span>${l}</span></div>`).join('');
+document.getElementById('maxd').textContent=D.MAXD;document.querySelectorAll('.md2').forEach(e=>e.textContent=D.MAXD);
+document.getElementById('legend').innerHTML=D.lanes.map(l=>`<span><i style="background:${l.color}"></i>${l.name}</span>`).join('');
+
+const svg=document.getElementById('tree');svg.setAttribute('viewBox',`0 0 ${D.W} ${D.H}`);svg.setAttribute('width','100%');
+const gL=el('g',{},svg),gE=el('g',{},svg),gN=el('g',{},svg);
+D.lanes.forEach(l=>{el('rect',{x:l.x0+3,y:D.TM-66,width:l.w-6,height:D.H-D.TM+40,rx:10,fill:l.color,'fill-opacity':.07},gL);
+  const t=el('text',{x:l.x0+l.w/2,y:D.TM-46,'text-anchor':'middle','font-size':14,'font-weight':700,fill:l.color},gL);t.textContent=l.name;
+  const s=el('text',{x:l.x0+l.w/2,y:D.TM-29,'text-anchor':'middle','font-size':12,fill:'var(--text-muted)'},gL);s.textContent=l.sub});
+for(let d=0;d<=D.MAXD;d++){const y=D.ytop[d];el('line',{x1:60,x2:D.W,y1:y,y2:y,stroke:'var(--rule)'},gL);const t=el('text',{x:54,y:y+4,'text-anchor':'end','font-size':13,fill:'var(--text-secondary)'},gL);t.textContent='depth '+d}
+const byId={};D.nodes.forEach(n=>byId[n.id]=n);
+const out={},inn={};D.nodes.forEach(n=>{out[n.id]=[];inn[n.id]=[]});
+const edgeEls=D.edges.map(([a,b])=>{out[a].push(b);inn[b].push(a);const A=byId[a],B=byId[b],my=(A.y+B.y)/2;
+  return [a,b,el('path',{class:'edge',d:`M${A.x},${A.y} C${A.x},${my} ${B.x},${my} ${B.x},${B.y}`},gE)]});
+const nodeEls={};
+D.nodes.forEach(n=>{const g=el('g',{class:'node',transform:`translate(${n.x},${n.y})`,tabindex:0},gN);
+  const c=D.lanes[n.lane].color,big=n.d<=4,r=big?7:(n.d==5?5:4);el('circle',{class:'hit',r:15},g);
+  if(['def','abbrev','structure'].includes(n.kind))el('rect',{x:-r,y:-r,width:2*r,height:2*r,rx:2,fill:c,stroke:'var(--surface-1)','stroke-width':2},g);
+  else el('circle',{r,fill:c,stroke:'var(--surface-1)','stroke-width':2},g);
+  const L=big?17:(n.d==5?15:12);const t=el('text',{class:'lbl'+(big?'':' small'),y:n.d>=6?-8:((n.col%2)?(big?-12:-9):(big?21:16)),'text-anchor':'middle'},g);
+  t.textContent=(n.d>=6&&!n.note)?'':(n.short.length>L?n.short.slice(0,L-1)+'…':n.short);nodeEls[n.id]=g;
+  g.addEventListener('mousemove',ev=>showTip(ev,n));g.addEventListener('mouseleave',hideTip);
+  g.addEventListener('click',()=>select(n.id));g.addEventListener('keydown',e=>{if(e.key==='Enter')select(n.id)})});
+const tip=document.getElementById('tip');
+function place(ev,w){const x=Math.min(ev.clientX+16,innerWidth-w-20),y=Math.min(ev.clientY+16,innerHeight-tip.offsetHeight-10);tip.style.left=x+'px';tip.style.top=Math.max(8,y)+'px'}
+const glossHTML=t=>t.length?`<dl class="gl">${t.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('')}</dl>`:'';
+function showTip(ev,n){tip.style.display='block';
+  tip.innerHTML=`<div class="nm">${esc(n.short)}</div><div class="md">${n.kind} · depth ${n.d} · ${esc(n.mod)}</div>${n.note?`<div class="note">${n.note}</div>`:`<code>${esc(n.stmt.slice(0,420))}</code>`}${n.terms.length?`<div class="tl" style="margin-top:6px">Terms: ${n.terms.map(t=>t[0]).join(', ')}</div>`:''}`;place(ev,620)}
+function hideTip(){tip.style.display='none'}
+function closure(id,a){const s=new Set([id]),stk=[id];while(stk.length){const x=stk.pop();for(const y of a[x])if(!s.has(y)){s.add(y);stk.push(y)}}return s}
+function select(id){const down=closure(id,out),up=closure(id,inn),on=new Set([...down,...up]);
+  for(const k in nodeEls)nodeEls[k].classList.toggle('dim',!on.has(k));
+  edgeEls.forEach(([a,b,e])=>{const hot=(down.has(a)&&down.has(b))||(up.has(a)&&up.has(b));e.classList.toggle('hot',hot);e.classList.toggle('dim',!hot)});
+  const n=byId[id];
+  document.getElementById('detail').innerHTML=`<div class="nm2" style="font-size:17px">${esc(n.name)}</div><div class="meta2">${n.kind} · depth ${n.d} · ${esc(n.mod)} · ${n.lines} lines · ${down.size-1} results below it on this chart, ${up.size-1} above · group <a href="#graph" onclick="focusGroup('${n.grp}')">${esc(n.grp)}</a></div>${n.note?`<p class="note" style="margin:8px 0 2px">${n.note}</p>`:''}${glossHTML(n.terms)}<details ${n.note?'':'open'}><summary style="cursor:pointer;color:var(--text-secondary)">Lean statement</summary><div class="lean">${esc(n.stmt)}</div></details>`;
+  ringGroup(n.grp)}
+document.getElementById('reset').onclick=()=>{for(const k in nodeEls)nodeEls[k].classList.remove('dim');edgeEls.forEach(([a,b,e])=>e.classList.remove('hot','dim'));document.getElementById('detail').textContent='Click a node to show its statement, the terms it uses, and its Lean source.';ringGroup(null)};
+document.getElementById('q').addEventListener('input',e=>{const v=e.target.value.trim().toLowerCase();if(!v){document.getElementById('reset').click();return}
+  const hit=D.nodes.filter(n=>n.name.toLowerCase().includes(v));for(const k in nodeEls)nodeEls[k].classList.toggle('dim',!hit.some(h=>h.id===k));if(hit.length===1)select(hit[0].id)});
+
+const tb=document.querySelector('#keytable tbody');
+D.nodes.filter(n=>n.note).sort((a,b)=>a.d-b.d||a.lane-b.lane||a.short.localeCompare(b.short)).forEach(n=>{const tr=document.createElement('tr');
+  tr.innerHTML=`<td><span class="nm2">${esc(n.short)}</span><br><span class="meta2">${n.kind} · depth ${n.d}</span></td><td><span style="color:${D.lanes[n.lane].color};font-weight:600">${D.lanes[n.lane].name}</span></td><td class="st">${n.note}${n.terms.length?`<details><summary style="cursor:pointer;font-family:Calibri,Carlito,sans-serif;font-size:13px;color:var(--text-muted)">Terms (${n.terms.length})</summary>${glossHTML(n.terms)}</details>`:''}</td>`;
+  tr.onclick=e=>{if(e.target.closest('details'))return;select(n.id);document.getElementById('tree').scrollIntoView({behavior:'smooth'})};tb.appendChild(tr)});
+
+const B=D.bars;document.getElementById('tailsub').textContent=`${fmt(st.below)} further declarations lie below depth ${D.MAXD}, down to depth ${st.maxd}. Each bar is one depth, stacked by library; hover for counts.`;
+document.getElementById('legend2').innerHTML=B.libs.map((l,i)=>`<span><i style="background:${PAL[i]}"></i>${l}</span>`).join('');
+const bs=document.getElementById('bars'),BW=1560,BH=320,ml=64,mb=36,mt=10;bs.setAttribute('viewBox',`0 0 ${BW} ${BH}`);bs.setAttribute('width','100%');
+const tot=B.counts.map(r=>r.reduce((a,b)=>a+b,0)),mx=Math.max(...tot),bw=(BW-ml-10)/B.depths.length,ys=v=>BH-mb-(BH-mb-mt)*v/mx;
+[0,.25,.5,.75,1].forEach(f=>{const v=Math.round(mx*f),y=ys(v);el('line',{x1:ml,x2:BW,y1:y,y2:y,stroke:'var(--rule)'},bs);const t=el('text',{x:ml-6,y:y+4,'text-anchor':'end','font-size':12,fill:'var(--text-muted)'},bs);t.textContent=fmt(v)});
+B.depths.forEach((d,i)=>{let acc=0;const x=ml+i*bw+2,g=el('g',{},bs);
+  B.counts[i].forEach((c,j)=>{if(!c)return;const y0=ys(acc),y1=ys(acc+c);el('rect',{x,y:y1,width:bw-4,height:Math.max(0,y0-y1-1),fill:PAL[j],rx:1.5},g);acc+=c});
+  if(i%5===0||i===B.depths.length-1){const t=el('text',{x:x+bw/2-2,y:BH-mb+17,'text-anchor':'middle','font-size':12,fill:'var(--text-secondary)'},bs);t.textContent=d}
+  el('rect',{x:x-2,y:mt,width:bw,height:BH-mb-mt,fill:'transparent'},g);
+  g.addEventListener('mousemove',ev=>{tip.style.display='block';tip.innerHTML=`<div class="nm">depth ${d}: ${fmt(tot[i])} declarations</div>`+B.libs.map((l,j)=>B.counts[i][j]?`<div><i style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${PAL[j]};margin-right:6px"></i>${l}: ${fmt(B.counts[i][j])}</div>`:'').join('');place(ev,300)});
+  g.addEventListener('mouseleave',hideTip)});
+const xl=el('text',{x:ml+(BW-ml)/2,y:BH-3,'text-anchor':'middle','font-size':13,fill:'var(--text-secondary)'},bs);xl.textContent='depth below riemannHypothesis';
+
+// full graph
+document.getElementById('gsub').textContent=`All ${fmt(st.groups)} module groups that the proof reaches (a group is a directory three levels deep), joined by ${fmt(st.gedges)} dependencies. Each group is a directory three levels below src/ with all files under it. Node area is proportional to the number of declarations reached; colour is the library. Click a group to see what it contains and which of the results above live there.`;
+document.getElementById('legend3').innerHTML=B.libs.map((l,i)=>`<span><i style="background:${PAL[i]}"></i>${l}</span>`).join('');
+const gs=document.getElementById('graph');gs.setAttribute('viewBox',`0 0 ${D.GW} ${D.GH}`);gs.setAttribute('width','100%');
+const ge=el('g',{},gs),gn=el('g',{},gs),gl=el('g',{},gs),gr=el('g',{},gs);
+const nb=D.groups.map(()=>[]);
+const gedgeEls=D.gedges.map(([a,b,w])=>{nb[a].push(b);nb[b].push(a);const A=D.groups[a].xy,Bp=D.groups[b].xy;return [a,b,el('line',{x1:A[0],y1:A[1],x2:Bp[0],y2:Bp[1],stroke:'var(--edge)','stroke-opacity':.07,'stroke-width':Math.min(2.4,.4+Math.log10(w)*.5)},ge)]});
+const gIndex={};const gEls=D.groups.map((g,k)=>{gIndex[g.g]=k;const r=g.r;
+  const c=el('circle',{class:'gnode',cx:g.xy[0],cy:g.xy[1],r,fill:PAL[g.lib],stroke:'var(--surface-1)','stroke-width':1},gn);
+  c.addEventListener('mousemove',ev=>{tip.style.display='block';tip.innerHTML=`<div class="nm">${esc(g.g)}</div><div class="md">${fmt(g.n)} declarations reached · first reached at depth ${g.d} · ${nb[k].length} neighbouring groups</div>`;place(ev,420)});
+  c.addEventListener('mouseleave',hideTip);c.addEventListener('click',()=>showGroup(k));return c});
+{const M=300,TOP=46,side={L:[],R:[]};gs.setAttribute('viewBox',`${-M} 0 ${D.GW+2*M} ${D.GH}`);
+ D.groups.slice(0,TOP).slice().sort((a,b)=>a.xy[0]-b.xy[0]).forEach((g,i)=>side[i<TOP/2?'L':'R'].push(g));
+ for(const s of ['L','R']){const arr=side[s].sort((a,b)=>a.xy[1]-b.xy[1]);const gap=22;let y=20;const ys=arr.map(g=>{y=Math.max(g.xy[1],y);const v=y;y+=gap;return v});
+   const over=ys.length?ys[ys.length-1]-(D.GH-20):0;if(over>0)for(let i=ys.length-1,lim=D.GH-20;i>=0;i--){ys[i]=Math.min(ys[i],lim);lim=ys[i]-gap}
+   arr.forEach((g,i)=>{const lx=s==='L'?-M+12:D.GW+M-12,ex=s==='L'?-18:D.GW+18,ly=ys[i];
+     const dx=g.xy[0]-ex,dy=g.xy[1]-ly,dd=Math.hypot(dx,dy)||1;const nx=g.xy[0]-dx/dd*g.r,ny=g.xy[1]-dy/dd*g.r;
+     el('polyline',{points:`${s==='L'?lx+ (g.g.split('.').slice(1).join('.').length*6.2):lx-(g.g.split('.').slice(1).join('.').length*6.2)},${ly} ${ex},${ly} ${nx},${ny}`,fill:'none',stroke:'var(--text-muted)','stroke-width':.8,'stroke-opacity':.8,'pointer-events':'none'},gl);
+     el('circle',{cx:nx,cy:ny,r:1.8,fill:'var(--text-secondary)','pointer-events':'none'},gl);
+     const t=el('text',{x:lx,y:ly+4,'text-anchor':s==='L'?'start':'end','font-size':12,fill:'var(--text-primary)',style:'cursor:pointer'},gl);
+     t.textContent=g.g.split('.').slice(1).join('.')||g.g;t.addEventListener('click',()=>showGroup(gIndex[g.g]))})}}
+const treeByGrp={};D.nodes.forEach(n=>{(treeByGrp[n.grp]=treeByGrp[n.grp]||[]).push(n)});
+function ringGroup(name){gr.innerHTML='';if(!name||!(name in gIndex))return;const g=D.groups[gIndex[name]];el('circle',{class:'ring',cx:g.xy[0],cy:g.xy[1],r:g.r+5},gr)}
+function showGroup(k){const g=D.groups[k],on=new Set([k,...nb[k]]);
+  gEls.forEach((c,i)=>c.classList.toggle('dim',!on.has(i)));gedgeEls.forEach(([a,b,e])=>{const hot=a===k||b===k;e.setAttribute('stroke-opacity',hot?.5:.03)});
+  ringGroup(g.g);const inTree=treeByGrp[g.g]||[];
+  document.getElementById('gpanel').innerHTML=`<div class="nm2" style="font-size:17px">${esc(g.g)}</div><div class="meta2">${fmt(g.n)} declarations reached · first reached at depth ${g.d} · ${nb[k].length} neighbouring groups (highlighted)</div>`+
+  (inTree.length?`<div style="margin:8px 0 2px">Results from the tree above in this group: ${inTree.map(n=>`<span class="chip" onclick="select('${n.id}');document.getElementById('tree').scrollIntoView({behavior:'smooth'})">${esc(n.short)}</span>`).join('')}</div>`:'')+
+  `<div style="margin-top:8px;color:var(--text-secondary)">Most-used declarations in this group:</div><ol>${g.top.map(([nm,kd,d,s])=>`<li><b>${esc(nm.split('.').slice(-2).join('.'))}</b> <span class="meta2">${kd}, depth ${d}</span><div class="lean">${esc(s)}</div></li>`).join('')}</ol>`}
+window.focusGroup=name=>{if(name in gIndex)showGroup(gIndex[name])};window.select=select;
+document.getElementById('greset').onclick=()=>{gEls.forEach(c=>c.classList.remove('dim'));gedgeEls.forEach(([a,b,e])=>e.setAttribute('stroke-opacity',.07));gr.innerHTML='';document.getElementById('gpanel').textContent='Click a group to list its most-used declarations. Selecting a node in the tree above outlines its group here.'};
+document.getElementById('gq').addEventListener('input',e=>{const v=e.target.value.trim().toLowerCase();if(!v){document.getElementById('greset').click();return}
+  const hits=new Set(D.groups.map((g,i)=>g.g.toLowerCase().includes(v)?i:-1).filter(i=>i>=0));gEls.forEach((c,i)=>c.classList.toggle('dim',!hits.has(i)));if(hits.size===1)showGroup([...hits][0])});
+</script></body></html>
