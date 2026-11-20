@@ -48,31 +48,41 @@ th{color:var(--text-secondary);font-weight:600;font-size:14px}
 .gnode{cursor:pointer}
 .ring{fill:none;stroke:var(--text-primary);stroke-width:2.5}
 .chip{display:inline-block;border:1px solid var(--rule);border-radius:12px;padding:1px 9px;margin:2px 4px 2px 0;cursor:pointer;background:var(--surface-1);font-size:13px}
+#toc{position:fixed;top:14px;right:16px;z-index:20;font-family:"Times New Roman",Times,serif;font-size:14px;line-height:1.5;background:color-mix(in srgb,var(--surface-1) 86%,transparent);backdrop-filter:blur(6px);border:1px solid var(--rule);border-radius:10px;padding:8px 12px 8px 10px;opacity:.55;transition:opacity .2s}
+#toc:hover{opacity:1}
+#toc a{display:block;color:var(--text-secondary);text-decoration:none;padding:1px 0 1px 9px;border-left:2px solid transparent}
+#toc a:hover{color:var(--text-primary)}
+#toc a.on{color:var(--text-primary);border-left-color:var(--text-secondary)}
+html{scroll-behavior:smooth}
+@media (max-width:900px){#toc{display:none}}
 </style><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="['gnote','excltext','exclmatrix'].forEach(id=>{const e=document.getElementById(id);if(e)renderMathInElement(e,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})});document.querySelectorAll('#excl ~ p.sub').forEach(e=>renderMathInElement(e,{delimiters:[{left:'$',right:'$',display:false}]}))"></script>
 </head>
-<body><div class="viz-root"><div class="wrap">
-<h1 class="tnr">On the proposed structure of the Riemann Hypothesis proof from the lean.tar.gz files</h1>
+<body><div class="viz-root"><nav id="toc" aria-label="Sections"><a href="#s-title">Overview</a><a href="#s-top">Top level results</a><a href="#s-principal">Principal results</a><a href="#s-depth">Beyond depth 6</a><a href="#s-graph">Graph-theoretic structure</a><a href="#excl">New mathematics</a><a href="#s-docs">Documents</a></nav>
+<script>window.addEventListener('load',()=>{const L=[...document.querySelectorAll('#toc a')],S=L.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+const upd=()=>{let k=0;S.forEach((s,i)=>{if(s.getBoundingClientRect().top<innerHeight*.35)k=i});L.forEach((a,i)=>a.classList.toggle('on',i===k))};addEventListener('scroll',upd,{passive:true});upd()});</script>
+<div class="wrap">
+<h1 class="tnr" id="s-title">On the proposed structure of the Riemann Hypothesis proof from the lean.tar.gz files</h1>
 <p class="tnr" style="margin:6px 0 0;font-size:17px;font-style:italic;color:var(--text-secondary)">Disclaimer: this is unverified, and we are simply attempting to map out these results and their implications carefully.</p>
 <p class="tnr" style="margin:14px 0 0;font-size:18px;color:var(--text-secondary)">Metadata from the proof (due to Levent Alpöge)</p>
 <div class="stats tnr" id="stats"></div>
 
-<h2>Top level results</h2>
+<h2 id="s-top">Top level results</h2>
 <div class="controls"><input type="search" id="q" placeholder="Find a declaration (VWin, Row0b, recT, …)"><button id="reset">Clear selection</button><span>● theorem &nbsp; ■ definition. Each edge joins successively layered results, and depth 6 is labeled solely for important results.</span></div>
 <div class="legend tnr" id="legend" style="font-size:15px"></div>
 <svg id="tree" role="img" aria-label="Layered proof tree"></svg>
 <div id="detail">Select a node above.</div>
 
-<h2>Principal results</h2>
+<h2 id="s-principal">Principal results</h2>
 <table id="keytable"><thead><tr><th style="width:22%">Result</th><th style="width:14%">Role</th><th>Statement</th></tr></thead><tbody></tbody></table>
 
-<h2>Going beyond depth 6</h2>
+<h2 id="s-depth">Going beyond depth 6</h2>
 <p class="sub" id="tailsub"></p>
 <div class="legend" id="legend2"></div>
 <svg id="bars" role="img" aria-label="Declarations per depth, stacked by library"></svg>
 
-<h2 class="tnr">Graph-theoretic structure of the Lean results</h2>
+<h2 class="tnr" id="s-graph">Graph-theoretic structure of the Lean results</h2>
 <p class="sub tnr" id="gsub"></p>
 <div class="controls"><input type="search" id="gq" placeholder="Find a module group (e.g. LocalLanglands, Heights)"><button id="greset">Clear</button></div>
 <div class="legend" id="legend3"></div>
@@ -138,7 +148,7 @@ function show(i){const p=P[i],e=p.excl,PN=document.getElementById('exclpanel');
   (e.n?`<div style="color:var(--text-secondary)">Largest modules in the exclusive support:</div><ol>${e.mods.map(([m,c])=>`<li>${es(m)} <span class="meta2">${f(c)}</span></li>`).join('')}</ol><div style="color:var(--text-secondary)">Most-cited declarations in the exclusive support:</div><ol>${e.top.map(([n,k,c,s])=>`<li><b>${es(n.split('.').slice(-2).join('.'))}</b> <span class="meta2">${k}, cited ${c} times within the block</span><div class="lean">${es(s)}</div></li>`).join('')}</ol>`:'<p>No declaration is exclusive to this pillar: everything it reaches is also reached by another pillar.</p>');PN.scrollIntoView({behavior:'smooth',block:'nearest'})}
 })();
 </script>
-<h2 class="tnr">Documents</h2>
+<h2 class="tnr" id="s-docs">Documents</h2>
 <p class="tnr" style="font-size:16px;line-height:1.55;max-width:1100px">I compiled a series of documents that record the formalization at different levels of detail and that can be used to accompany the above visualization. The two statement volumes give every theorem and lemma statement from the first part of the archive, grouped by file; and the table of declarations reached from riemannHypothesis gives the kind, module, depth and statement of all of the key results. This makes dependencies searchable and sortable. The last file collects the principal statements that are closest to the main theorem.</p>
 <ul class="tnr" style="font-size:16px;line-height:1.8">
 <li><a href="data/statements_development.pdf">Statements, Development</a> (part 1, 1,844 pp.)</li>

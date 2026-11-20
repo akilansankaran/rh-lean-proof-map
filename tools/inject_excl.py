@@ -62,7 +62,7 @@ function show(i){const p=P[i],e=p.excl,PN=document.getElementById('exclpanel');
 </script>
 '''
 
-ANCHOR = '<h2 class="tnr">Documents</h2>'
+ANCHOR = '<h2 class="tnr" id="s-docs">Documents</h2>'
 KATEX_OLD = "renderMathInElement(document.getElementById('gnote'),{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"
 KATEX_NEW = "['gnote','excltext','exclmatrix'].forEach(id=>{const e=document.getElementById(id);if(e)renderMathInElement(e,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})});document.querySelectorAll('#excl ~ p.sub').forEach(e=>renderMathInElement(e,{delimiters:[{left:'$',right:'$',display:false}]}))"
 block = SECTION.replace('__EXCL__', json.dumps(X, ensure_ascii=False, separators=(',', ':')))
