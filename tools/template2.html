@@ -50,14 +50,13 @@ th{color:var(--text-secondary);font-weight:600;font-size:14px}
 </style></head>
 <body><div class="viz-root"><div class="wrap">
 <h1>The Riemann Hypothesis in <span style="font-family:'SF Mono',Menlo,monospace;font-size:26px">lean.tar.gz</span>: structure of the proof</h1>
-<p class="sub">Each node is a Lean declaration. Rows give its distance below the theorem <i>riemannHypothesis</i> in Main.lean; columns group it by mathematical role. Hover for the statement, click to trace dependencies and to locate it in the full graph below.</p>
 <div class="stats" id="stats"></div>
 
 <h2>Top of the proof tree (depths 0–<span id="maxd"></span>)</h2>
-<div class="controls"><input type="search" id="q" placeholder="Find a declaration (VWin, Row0b, recT, …)"><button id="reset">Clear selection</button><span>● theorem &nbsp; ■ definition &nbsp;·&nbsp; each edge joins a result to one it uses &nbsp;·&nbsp; depth 6 is labelled only for principal results; hover any node</span></div>
+<div class="controls"><input type="search" id="q" placeholder="Find a declaration (VWin, Row0b, recT, …)"><button id="reset">Clear selection</button><span>● theorem &nbsp; ■ definition &nbsp;·&nbsp; each edge joins successively layered results &nbsp;·&nbsp; depth 6 labeled only for important results</span></div>
 <div class="legend" id="legend"></div>
 <svg id="tree" role="img" aria-label="Layered proof tree"></svg>
-<div id="detail">Click a node to show its statement, the terms it uses, and its Lean source.</div>
+<div id="detail">Select a node.</div>
 
 <h2>Principal results</h2>
 <table id="keytable"><thead><tr><th style="width:22%">Result</th><th style="width:14%">Role</th><th>Statement</th></tr></thead><tbody></tbody></table>
@@ -82,7 +81,7 @@ const fmt=n=>n.toLocaleString('en-US');
 const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 const PAL=['#2a78d6','#eb6834','#1baf7a','#eda100','#e87ba4','#008300','#6250d6','#b9b8b2'];
 const st=D.stats;
-document.getElementById('stats').innerHTML=[[st.files,'Lean files'],[st.lines,'lines of Lean'],[st.decls,'declarations'],[st.reached,'reached from riemannHypothesis'],[st.thm,'of them theorems'],[st.defs,'of them definitions'],[st.groups,'module groups reached'],[st.maxd,'maximum depth']].map(([v,l])=>`<div class="stat"><b>${fmt(v)}</b><span>${l}</span></div>`).join('');
+document.getElementById('stats').innerHTML=[[st.files,'Lean files'],[st.lines,'lines of Lean'],[st.decls,'declarations'],[st.reached,'reached from riemannHypothesis'],[st.thm,'theorems'],[st.defs,'definitions'],[st.groups,'module groups reached'],[st.maxd,'maximum depth']].map(([v,l])=>`<div class="stat"><b>${fmt(v)}</b><span>${l}</span></div>`).join('');
 document.getElementById('maxd').textContent=D.MAXD;document.querySelectorAll('.md2').forEach(e=>e.textContent=D.MAXD);
 document.getElementById('legend').innerHTML=D.lanes.map(l=>`<span><i style="background:${l.color}"></i>${l.name}</span>`).join('');
 
@@ -118,7 +117,7 @@ function select(id){const down=closure(id,out),up=closure(id,inn),on=new Set([..
   const n=byId[id];
   document.getElementById('detail').innerHTML=`<div class="nm2" style="font-size:17px">${esc(n.name)}</div><div class="meta2">${n.kind} · depth ${n.d} · ${esc(n.mod)} · ${n.lines} lines · ${down.size-1} results below it on this chart, ${up.size-1} above · group <a href="#graph" onclick="focusGroup('${n.grp}')">${esc(n.grp)}</a></div>${n.note?`<p class="note" style="margin:8px 0 2px">${n.note}</p>`:''}${glossHTML(n.terms)}<details ${n.note?'':'open'}><summary style="cursor:pointer;color:var(--text-secondary)">Lean statement</summary><div class="lean">${esc(n.stmt)}</div></details>`;
   ringGroup(n.grp)}
-document.getElementById('reset').onclick=()=>{for(const k in nodeEls)nodeEls[k].classList.remove('dim');edgeEls.forEach(([a,b,e])=>e.classList.remove('hot','dim'));document.getElementById('detail').textContent='Click a node to show its statement, the terms it uses, and its Lean source.';ringGroup(null)};
+document.getElementById('reset').onclick=()=>{for(const k in nodeEls)nodeEls[k].classList.remove('dim');edgeEls.forEach(([a,b,e])=>e.classList.remove('hot','dim'));document.getElementById('detail').textContent='Select a node.';ringGroup(null)};
 document.getElementById('q').addEventListener('input',e=>{const v=e.target.value.trim().toLowerCase();if(!v){document.getElementById('reset').click();return}
   const hit=D.nodes.filter(n=>n.name.toLowerCase().includes(v));for(const k in nodeEls)nodeEls[k].classList.toggle('dim',!hit.some(h=>h.id===k));if(hit.length===1)select(hit[0].id)});
 

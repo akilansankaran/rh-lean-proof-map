@@ -38,7 +38,7 @@ while q:
             q.append(y)
 
 LANES = [
-    ('Stated results', '#6f6e69', lambda m: m.split('.')[0] in TOP_MODS, 'Main.lean, Statements.lean'),
+    ('Main results', '#6f6e69', lambda m: m.split('.')[0] in TOP_MODS, 'Main.lean, Statements.lean'),
     ('Analytic reduction', '#2a78d6', lambda m: 'GammaFactorNonvanishing' in m, 'functional equation, Γ-factor'),
     ('Selmer bound ⟹ nonvanishing', '#e0602c', lambda m: any(k in m for k in ('CharacterBoxes', 'ModularityArgument', 'ThirdPlaceSeries')), 'VWin, Green, theta integrals'),
     ('Galois representations', '#1a9e6f', lambda m: 'GaloisRepresentations' in m and 'Theta' not in m, 'Row0b, PropsB'),

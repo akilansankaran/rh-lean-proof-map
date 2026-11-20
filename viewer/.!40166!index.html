@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>The Riemann Hypothesis in lean.tar.gz: proof structure</title>
+<style>
+.viz-root{color-scheme:light;--surface-1:#fcfcfb;--surface-2:#f4f3ef;--text-primary:#0b0b0b;--text-secondary:#52514e;--text-muted:#8a8984;--rule:#e4e3df;--edge:#52514e}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])) .viz-root{color-scheme:dark;--surface-1:#1a1a19;--surface-2:#242422;--text-primary:#f0efec;--text-secondary:#c3c2b7;--text-muted:#8f8e88;--rule:#33332f;--edge:#c3c2b7}}
+:root[data-theme="dark"] .viz-root{color-scheme:dark;--surface-1:#1a1a19;--surface-2:#242422;--text-primary:#f0efec;--text-secondary:#c3c2b7;--text-muted:#8f8e88;--rule:#33332f;--edge:#c3c2b7}
+body{margin:0}
+.viz-root{background:var(--surface-1);color:var(--text-primary);font:15px/1.5 Calibri,Carlito,"Segoe UI",Helvetica,Arial,sans-serif;min-height:100vh}
+.math,.note,.gl dd,#keytable td.st{font-family:"Times New Roman",Times,serif;font-size:16px;line-height:1.5}
+.wrap{max-width:1600px;margin:0 auto;padding:28px 24px 60px}
+h1{font-size:30px;margin:0 0 4px;font-weight:700}
+h2{font-size:21px;margin:36px 0 8px}
+.sub{color:var(--text-secondary);margin:0 0 14px}
+.stats{display:flex;gap:30px;flex-wrap:wrap;margin:18px 0 8px}
+.stat b{display:block;font-size:26px;color:var(--text-primary);font-variant-numeric:tabular-nums}
+.stat span{color:var(--text-secondary);font-size:13px}
+.controls{display:flex;gap:10px;align-items:center;margin:8px 0;color:var(--text-secondary);font-size:14px;flex-wrap:wrap}
+input[type=search]{font:inherit;padding:6px 10px;border:1px solid var(--rule);border-radius:6px;background:var(--surface-1);color:var(--text-primary);min-width:280px}
+button{font:inherit;padding:5px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--surface-2);color:var(--text-primary);cursor:pointer}
+svg text{font-family:Calibri,Carlito,"Segoe UI",Helvetica,Arial,sans-serif}
+.node{cursor:pointer}.node .hit{fill:transparent}
+.dim{opacity:.1}
+.lbl{fill:var(--text-primary);font-size:12px;pointer-events:none}
+.lbl.small{font-size:10.5px;fill:var(--text-secondary)}
+.edge{stroke:var(--edge);stroke-opacity:.2;fill:none}
+.edge.hot{stroke-opacity:.95;stroke-width:1.8}
+#tip{position:fixed;pointer-events:none;background:var(--surface-1);border:1px solid var(--rule);border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,.18);padding:10px 13px;max-width:600px;font-size:13px;display:none;z-index:10}
+#tip .nm{font-weight:700;word-break:break-all;font-size:14px}
+#tip .md{color:var(--text-muted);font-size:12px;margin:2px 0 6px;word-break:break-all}
+#tip .note{margin:0 0 6px}
+#tip .tl{color:var(--text-muted);font-size:12px}
+code,.lean{font:11.5px/1.5 "SF Mono",Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word;color:var(--text-secondary)}
+#detail{background:var(--surface-2);border-radius:8px;padding:14px 16px;margin-top:10px;min-height:44px}
+#detail details{margin-top:8px}
+.gl{margin:8px 0 0;display:grid;grid-template-columns:max-content 1fr;gap:3px 14px}
+.gl dt{font-family:"Times New Roman",Times,serif;font-style:italic;font-size:15.5px;color:var(--text-primary)}
+.gl dd{margin:0;color:var(--text-secondary);font-size:15px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13.5px;color:var(--text-secondary);margin:6px 0}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;padding:8px 9px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{color:var(--text-secondary);font-weight:600;font-size:14px}
+#keytable tr{cursor:pointer}#keytable tr:hover td{background:var(--surface-2)}
+.nm2{font-weight:700}.meta2{color:var(--text-muted);font-size:12.5px}
+#gpanel{background:var(--surface-2);border-radius:8px;padding:14px 16px;margin-top:10px;min-height:44px}
+#gpanel li{margin:4px 0}
+.gnode{cursor:pointer}
+.ring{fill:none;stroke:var(--text-primary);stroke-width:2.5}
+.chip{display:inline-block;border:1px solid var(--rule);border-radius:12px;padding:1px 9px;margin:2
