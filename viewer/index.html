@@ -60,7 +60,7 @@ th{color:var(--text-secondary);font-weight:600;font-size:14px}
 
 <h2>Top level results</h2>
 <div class="controls"><input type="search" id="q" placeholder="Find a declaration (VWin, Row0b, recT, …)"><button id="reset">Clear selection</button><span>● theorem &nbsp; ■ definition. Each edge joins successively layered results, and depth 6 is labeled solely for important results.</span></div>
-<div class="legend" id="legend"></div>
+<div class="legend tnr" id="legend" style="font-size:15px"></div>
 <svg id="tree" role="img" aria-label="Layered proof tree"></svg>
 <div id="detail">Select a node above.</div>
 
@@ -106,8 +106,8 @@ document.getElementById('legend').innerHTML=D.lanes.map(l=>`<span><i style="back
 const svg=document.getElementById('tree');svg.setAttribute('viewBox',`0 0 ${D.W} ${D.H}`);svg.setAttribute('width','100%');
 const gL=el('g',{},svg),gE=el('g',{},svg),gN=el('g',{},svg);
 D.lanes.forEach(l=>{el('rect',{x:l.x0+3,y:D.TM-66,width:l.w-6,height:D.H-D.TM+40,rx:10,fill:l.color,'fill-opacity':.07},gL);
-  const t=el('text',{x:l.x0+l.w/2,y:D.TM-46,'text-anchor':'middle','font-size':14,'font-weight':700,fill:l.color},gL);t.textContent=l.name;
-  const s=el('text',{x:l.x0+l.w/2,y:D.TM-29,'text-anchor':'middle','font-size':12,fill:'var(--text-muted)'},gL);s.textContent=l.sub});
+  const t=el('text',{x:l.x0+l.w/2,y:D.TM-46,'text-anchor':'middle','font-size':15.5,'font-weight':700,fill:l.color,style:"font-family:'Times New Roman',Times,serif"},gL);t.textContent=l.name;
+  const s=el('text',{x:l.x0+l.w/2,y:D.TM-29,'text-anchor':'middle','font-size':13,fill:'var(--text-muted)',style:"font-family:'Times New Roman',Times,serif"},gL);s.textContent=l.sub});
 for(let d=0;d<=D.MAXD;d++){const y=D.ytop[d];el('line',{x1:60,x2:D.W,y1:y,y2:y,stroke:'var(--rule)'},gL);const t=el('text',{x:54,y:y+4,'text-anchor':'end','font-size':13,fill:'var(--text-secondary)'},gL);t.textContent='depth '+d}
 const byId={};D.nodes.forEach(n=>byId[n.id]=n);
 const out={},inn={};D.nodes.forEach(n=>{out[n.id]=[];inn[n.id]=[]});
