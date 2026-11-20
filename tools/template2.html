@@ -62,7 +62,7 @@ th{color:var(--text-secondary);font-weight:600;font-size:14px}
 <h2>Principal results</h2>
 <table id="keytable"><thead><tr><th style="width:22%">Result</th><th style="width:14%">Role</th><th>Statement</th></tr></thead><tbody></tbody></table>
 
-<h2>Below depth <span class="md2"></span></h2>
+<h2>Going beyond depth 6</h2>
 <p class="sub" id="tailsub"></p>
 <div class="legend" id="legend2"></div>
 <svg id="bars" role="img" aria-label="Declarations per depth, stacked by library"></svg>
@@ -72,7 +72,7 @@ th{color:var(--text-secondary);font-weight:600;font-size:14px}
 <div class="controls"><input type="search" id="gq" placeholder="Find a module group (e.g. LocalLanglands, Heights)"><button id="greset">Clear</button></div>
 <div class="legend" id="legend3"></div>
 <svg id="graph" role="img" aria-label="Module-group dependency graph"></svg>
-<div id="gpanel">Select a node in the tree to outline the group here.</div>
+<div id="gpanel">Select a group to list the most-used declarations of the group, and selecting a node in the tree above will also outline the group here.</div>
 </div><div id="tip"></div></div>
 <script>
 const D=__DATA__;
@@ -127,7 +127,7 @@ D.nodes.filter(n=>n.note).sort((a,b)=>a.d-b.d||a.lane-b.lane||a.short.localeComp
   tr.innerHTML=`<td><span class="nm2">${esc(n.short)}</span><br><span class="meta2">${n.kind} · depth ${n.d}</span></td><td><span style="color:${D.lanes[n.lane].color};font-weight:600">${D.lanes[n.lane].name}</span></td><td class="st">${n.note}${n.terms.length?`<details><summary style="cursor:pointer;font-family:Calibri,Carlito,sans-serif;font-size:13px;color:var(--text-muted)">Terms (${n.terms.length})</summary>${glossHTML(n.terms)}</details>`:''}</td>`;
   tr.onclick=e=>{if(e.target.closest('details'))return;select(n.id);document.getElementById('tree').scrollIntoView({behavior:'smooth'})};tb.appendChild(tr)});
 
-const B=D.bars;document.getElementById('tailsub').textContent=`${fmt(st.below)} further declarations lie below depth ${D.MAXD}, down to depth ${st.maxd}. Each bar is one depth, stacked by library; hover for counts.`;
+const B=D.bars;document.getElementById('tailsub').textContent=`There are ${fmt(st.below)} further declarations that lie below depth ${D.MAXD}, down to depth ${st.maxd} in the tree. We give the counts of declarations by library as one ventures deeper into the tree, as follows:`;
 document.getElementById('legend2').innerHTML=B.libs.map((l,i)=>`<span><i style="background:${PAL[i]}"></i>${l}</span>`).join('');
 const bs=document.getElementById('bars'),BW=1560,BH=320,ml=64,mb=36,mt=10;bs.setAttribute('viewBox',`0 0 ${BW} ${BH}`);bs.setAttribute('width','100%');
 const tot=B.counts.map(r=>r.reduce((a,b)=>a+b,0)),mx=Math.max(...tot),bw=(BW-ml-10)/B.depths.length,ys=v=>BH-mb-(BH-mb-mt)*v/mx;
@@ -141,7 +141,7 @@ B.depths.forEach((d,i)=>{let acc=0;const x=ml+i*bw+2,g=el('g',{},bs);
 const xl=el('text',{x:ml+(BW-ml)/2,y:BH-3,'text-anchor':'middle','font-size':13,fill:'var(--text-secondary)'},bs);xl.textContent='depth below riemannHypothesis';
 
 // full graph
-document.getElementById('gsub').textContent=`All ${fmt(st.groups)} module groups that the proof reaches (a group is a directory three levels deep), joined by ${fmt(st.gedges)} dependencies. Each group is a directory three levels below src/ with all files under it. Node area is proportional to the number of declarations reached; colour is the library. Click a group to see what it contains and which of the results above live there.`;
+document.getElementById('gsub').textContent=`We define a group to be a directory that is three levels deep. We now categorize the ${fmt(st.groups)} module groups within the proof, joined by ${fmt(st.gedges)} different dependencies. Node area is proportional to the number of declarations reached, colour indicates the library, and we also define a mapping back to the chain of results above.`;
 document.getElementById('legend3').innerHTML=B.libs.map((l,i)=>`<span><i style="background:${PAL[i]}"></i>${l}</span>`).join('');
 const gs=document.getElementById('graph');gs.setAttribute('viewBox',`0 0 ${D.GW} ${D.GH}`);gs.setAttribute('width','100%');
 const ge=el('g',{},gs),gn=el('g',{},gs),gl=el('g',{},gs),gr=el('g',{},gs);
@@ -170,7 +170,7 @@ function showGroup(k){const g=D.groups[k],on=new Set([k,...nb[k]]);
   (inTree.length?`<div style="margin:8px 0 2px">Results from the tree above in this group: ${inTree.map(n=>`<span class="chip" onclick="select('${n.id}');document.getElementById('tree').scrollIntoView({behavior:'smooth'})">${esc(n.short)}</span>`).join('')}</div>`:'')+
   `<div style="margin-top:8px;color:var(--text-secondary)">Most-used declarations in this group:</div><ol>${g.top.map(([nm,kd,d,s])=>`<li><b>${esc(nm.split('.').slice(-2).join('.'))}</b> <span class="meta2">${kd}, depth ${d}</span><div class="lean">${esc(s)}</div></li>`).join('')}</ol>`}
 window.focusGroup=name=>{if(name in gIndex)showGroup(gIndex[name])};window.select=select;
-document.getElementById('greset').onclick=()=>{gEls.forEach(c=>c.classList.remove('dim'));gedgeEls.forEach(([a,b,e])=>e.setAttribute('stroke-opacity',.07));gr.innerHTML='';document.getElementById('gpanel').textContent='Select a node in the tree to outline the group here.'};
+document.getElementById('greset').onclick=()=>{gEls.forEach(c=>c.classList.remove('dim'));gedgeEls.forEach(([a,b,e])=>e.setAttribute('stroke-opacity',.07));gr.innerHTML='';document.getElementById('gpanel').textContent='Select a group to list the most-used declarations of the group, and selecting a node in the tree above will also outline the group here.'};
 document.getElementById('gq').addEventListener('input',e=>{const v=e.target.value.trim().toLowerCase();if(!v){document.getElementById('greset').click();return}
   const hits=new Set(D.groups.map((g,i)=>g.g.toLowerCase().includes(v)?i:-1).filter(i=>i>=0));gEls.forEach((c,i)=>c.classList.toggle('dim',!hits.has(i)));if(hits.size===1)showGroup([...hits][0])});
 </script></body></html>
