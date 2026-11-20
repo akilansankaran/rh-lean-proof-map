@@ -68,7 +68,7 @@ th{color:var(--text-secondary);font-weight:600;font-size:14px}
 <div class="legend" id="legend2"></div>
 <svg id="bars" role="img" aria-label="Declarations per depth, stacked by library"></svg>
 
-<h2 class="tnr">The whole proof as a graph of module groups</h2>
+<h2 class="tnr">Graph-theoretic structure of the Lean results</h2>
 <p class="sub tnr" id="gsub"></p>
 <div class="controls"><input type="search" id="gq" placeholder="Find a module group (e.g. LocalLanglands, Heights)"><button id="greset">Clear</button></div>
 <div class="legend" id="legend3"></div>
@@ -142,7 +142,7 @@ B.depths.forEach((d,i)=>{let acc=0;const x=ml+i*bw+2,g=el('g',{},bs);
 const xl=el('text',{x:ml+(BW-ml)/2,y:BH-3,'text-anchor':'middle','font-size':13,fill:'var(--text-secondary)'},bs);xl.textContent='depth below riemannHypothesis';
 
 // full graph
-document.getElementById('gsub').textContent=`We define a group to be a directory that is three levels deep. We now categorize the ${fmt(st.groups)} module groups within the proof, joined by ${fmt(st.gedges)} different dependencies. Node area is proportional to the number of declarations reached, colour indicates the library, and we also define a mapping back to the chain of results above.`;
+document.getElementById('gsub').textContent=`We define a group to be a directory that is three levels deep. We now categorize the ${fmt(st.groups)} module groups within the proof, joined by ${fmt(st.gedges)} different dependencies. Node area is proportional to the number of declarations reached, and we also define a mapping back to the chain of results above.`;
 document.getElementById('legend3').innerHTML=B.libs.map((l,i)=>`<span><i style="background:${PAL[i]}"></i>${l}</span>`).join('');
 const gs=document.getElementById('graph');gs.setAttribute('viewBox',`0 0 ${D.GW} ${D.GH}`);gs.setAttribute('width','100%');
 const ge=el('g',{},gs),gn=el('g',{},gs),gl=el('g',{},gs),gr=el('g',{},gs);
