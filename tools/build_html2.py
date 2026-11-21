@@ -9,6 +9,9 @@ import numpy as np
 
 sys.path.insert(0, sys.argv[4])
 from notes import GLOSSARY, NOTES
+import os as _os
+_fp = _os.path.join(sys.argv[4], 'notes_full.json')
+FULL = json.load(open(_fp)) if _os.path.exists(_fp) else {}
 
 idx = pickle.load(open(sys.argv[1], 'rb'))
 OUT = sys.argv[2]
@@ -126,7 +129,7 @@ for i in nodes:
     short = meta[i][0].split('.')[-1]
     node_js.append({'id': nid[i], 'x': round(pos[i][0], 1), 'y': round(pos[i][1], 1), 'lane': lane(i), 'd': depth[i],
                     'col': colof[i], 'name': meta[i][0], 'short': short, 'kind': meta[i][2], 'mod': meta[i][1],
-                    'lines': meta[i][3], 'stmt': meta[i][4], 'note': NOTES.get(short, ''), 'terms': terms_for(i),
+                    'lines': meta[i][3], 'stmt': meta[i][4], 'note': NOTES.get(short, '') or FULL.get(meta[i][0], ''), 'np': short not in NOTES and meta[i][0] in FULL, 'terms': terms_for(i),
                     'grp': group(meta[i][1])})
 edge_js = [[nid[a], nid[b]] for a in nodes for b in set(adj[a]) if b in S and depth[b] == depth[a] + 1]
 

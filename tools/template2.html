@@ -206,7 +206,7 @@ document.getElementById('q').addEventListener('input',e=>{const v=e.target.value
   const hit=D.nodes.filter(n=>n.name.toLowerCase().includes(v));for(const k in nodeEls)nodeEls[k].classList.toggle('dim',!hit.some(h=>h.id===k));if(hit.length===1)select(hit[0].id)});
 
 const tb=document.querySelector('#keytable tbody');
-D.nodes.filter(n=>n.note).sort((a,b)=>a.d-b.d||a.lane-b.lane||a.short.localeCompare(b.short)).forEach(n=>{const tr=document.createElement('tr');
+D.nodes.filter(n=>n.note&&!n.np).sort((a,b)=>a.d-b.d||a.lane-b.lane||a.short.localeCompare(b.short)).forEach(n=>{const tr=document.createElement('tr');
   tr.innerHTML=`<td><span class="nm2">${esc(n.short)}</span><br><span class="meta2">${n.kind} · depth ${n.d}</span></td><td><span style="color:${D.lanes[n.lane].color};font-weight:600">${D.lanes[n.lane].name}</span></td><td class="st">${n.note}${n.terms.length?`<details><summary style="cursor:pointer;font-family:Calibri,Carlito,sans-serif;font-size:13px;color:var(--text-muted)">Terms (${n.terms.length})</summary>${glossHTML(n.terms)}</details>`:''}</td>`;
   tr.onclick=e=>{if(e.target.closest('details'))return;select(n.id);document.getElementById('tree').scrollIntoView({behavior:'smooth'})};tb.appendChild(tr)});
 
